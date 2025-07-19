@@ -15,6 +15,7 @@ const ForgotPassword = () => {
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [developmentOTP, setDevelopmentOTP] = useState('');
   const { toast } = useToast();
 
   const handleSendOtp = async (e: React.FormEvent) => {
@@ -23,11 +24,23 @@ const ForgotPassword = () => {
 
     try {
       const response = await authApi.forgotPassword({ email });
-      
-      toast({
-        title: "OTP Sent!",
-        description: response.message || "Please check your email for the OTP.",
-      });
+
+      // Store development OTP if provided (only when email fails)
+      if (response.developmentOTP) {
+        setDevelopmentOTP(response.developmentOTP);
+        setOtp(response.developmentOTP); // Auto-fill for development
+        toast({
+          title: "OTP Generated!",
+          description: response.message || "Email service unavailable - OTP shown below.",
+          variant: "destructive",
+        });
+      } else {
+        // Real email was sent successfully
+        toast({
+          title: "OTP Sent!",
+          description: response.message || "Please check your email for the OTP.",
+        });
+      }
 
       setIsOtpSent(true);
     } catch (error) {
@@ -151,6 +164,23 @@ const ForgotPassword = () => {
             </form>
           ) : (
             <form onSubmit={handleResetPassword} className="space-y-4">
+              {developmentOTP && (
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    <p className="text-sm font-medium text-blue-800">
+                      OTP Generated Successfully
+                    </p>
+                  </div>
+                  <p className="text-sm text-blue-700 mt-1">
+                    Your OTP: <span className="font-mono font-bold text-lg">{developmentOTP}</span>
+                  </p>
+                  <p className="text-xs text-blue-600 mt-1">
+                    (Email service in development mode - OTP auto-filled below)
+                  </p>
+                </div>
+              )}
+
               <div className="space-y-2">
                 <Label htmlFor="otp">OTP</Label>
                 <Input
