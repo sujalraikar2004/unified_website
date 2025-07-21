@@ -1,6 +1,6 @@
 // API Configuration and HTTP Client
 const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://your-backend-deployment-url.vercel.app'
+  ? (import.meta.env.VITE_API_URL || 'https://your-backend-deployment-url.vercel.app')
   : '/api';
 
 // API Response Types
