@@ -17,6 +17,10 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
+import ActivateAccount from "./pages/ActivateAccount";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from './pages/Profile';
+import MyTeams from "./pages/MyTeams";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +32,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Navbar />
-          <main className="min-h-screen">
+          <main className="min-h-screen pt-16">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/events" element={<Events />} />
@@ -40,6 +44,10 @@ const App = () => (
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/activate/:token" element={<ActivateAccount />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/my-teams" element={<MyTeams />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

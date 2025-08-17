@@ -1,103 +1,86 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, MapPin, Users, Clock, ArrowRight, Filter, Search } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { Calendar, MapPin, Users, Clock, ArrowRight, Filter, Search, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import eventsHero from '@/assets/events-hero.jpg';
 
+// Type definition for the event data received from the backend
+interface BackendEvent {
+  _id: string;
+  name: string;
+  description: string;
+  category: string[];
+  date: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  maxSeats: number;
+  registeredTeams: string[];
+}
+
+// Type definition for the event data used by the frontend components
+interface FrontendEvent {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  attendees: number;
+  maxAttendees: number;
+  category: string;
+  status: 'current' | 'upcoming' | 'past';
+  description: string;
+  tags: string[];
+  featured: boolean; // You can enhance this later
+}
+
+const fetchEvents = async (): Promise<BackendEvent[]> => {
+  const { data } = await axios.get('/api/events');
+  return data.data;
+};
+
 const Events = () => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const events = [
-    {
-      id: 1,
-      title: 'AI & Machine Learning Workshop',
-      date: '2024-01-25',
-      time: '2:00 PM - 5:00 PM',
-      location: 'Tech Hub, Room 301',
-      attendees: 45,
-      maxAttendees: 60,
-      category: 'workshop',
-      status: 'upcoming',
-      description: 'Hands-on workshop covering fundamentals of AI and practical ML implementations.',
-      tags: ['AI', 'Machine Learning', 'Python'],
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Student Startup Pitch Competition',
-      date: '2024-01-20',
-      time: '6:00 PM - 9:00 PM',
-      location: 'Innovation Center',
-      attendees: 120,
-      maxAttendees: 150,
-      category: 'competition',
-      status: 'current',
-      description: 'Present your startup ideas to industry experts and win exciting prizes.',
-      tags: ['Entrepreneurship', 'Startup', 'Competition'],
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'Web Development Bootcamp',
-      date: '2024-02-01',
-      time: '9:00 AM - 6:00 PM',
-      location: 'Computer Lab A',
-      attendees: 25,
-      maxAttendees: 30,
-      category: 'bootcamp',
-      status: 'upcoming',
-      description: 'Intensive full-day bootcamp covering modern web development technologies.',
-      tags: ['React', 'Node.js', 'Full Stack'],
-      featured: false
-    },
-    {
-      id: 4,
-      title: 'Career Networking Night',
-      date: '2024-01-28',
-      time: '7:00 PM - 10:00 PM',
-      location: 'Grand Hall',
-      attendees: 200,
-      maxAttendees: 250,
-      category: 'networking',
-      status: 'upcoming',
-      description: 'Connect with alumni, industry professionals, and potential employers.',
-      tags: ['Networking', 'Career', 'Professional'],
-      featured: false
-    },
-    {
-      id: 5,
-      title: 'Hackathon 2024: Build the Future',
-      date: '2024-02-15',
-      time: '48 hours',
-      location: 'Engineering Building',
-      attendees: 80,
-      maxAttendees: 100,
-      category: 'hackathon',
-      status: 'upcoming',
-      description: '48-hour coding marathon to solve real-world problems with innovative solutions.',
-      tags: ['Hackathon', 'Innovation', 'Team Building'],
-      featured: true
-    },
-    {
-      id: 6,
-      title: 'Design Thinking Workshop',
-      date: '2024-01-18',
-      time: '1:00 PM - 4:00 PM',
-      location: 'Creative Studio',
-      attendees: 35,
-      maxAttendees: 40,
-      category: 'workshop',
-      status: 'current',
-      description: 'Learn human-centered design principles and methodologies.',
-      tags: ['Design', 'UX/UI', 'Innovation'],
-      featured: false
-    }
-  ];
+  const { data: backendEvents, isLoading, isError } = useQuery<BackendEvent[], Error>({ queryKey: ['events'], queryFn: fetchEvents });
+
+  const events: FrontendEvent[] = useMemo(() => {
+    if (!backendEvents) return [];
+    return backendEvents.map(event => {
+      const eventDate = new Date(event.date);
+      const now = new Date();
+      let status: 'current' | 'upcoming' | 'past' = 'upcoming';
+      if (eventDate < now) {
+        status = 'past';
+      } 
+      // You might want to define 'current' more precisely, e.g., happening today
+      if (eventDate.toDateString() === now.toDateString()) {
+        status = 'current';
+      }
+
+      return {
+        id: event._id,
+        title: event.name,
+        date: event.date,
+        time: `${event.startTime} - ${event.endTime}`,
+        location: event.location,
+        attendees: event.registeredTeams.length,
+        maxAttendees: event.maxSeats,
+        category: event.category[0] || 'general', // Default to 'general' if no category
+        status,
+        description: event.description,
+        tags: event.category,
+        featured: false, // Default value
+      };
+    });
+  }, [backendEvents]);
 
   const filters = [
     { id: 'all', label: 'All Events', count: events.length },
@@ -110,19 +93,20 @@ const Events = () => {
     { id: 'competition', label: 'Competitions', color: 'bg-gradient-secondary' },
     { id: 'bootcamp', label: 'Bootcamps', color: 'bg-gradient-accent' },
     { id: 'networking', label: 'Networking', color: 'bg-gradient-to-r from-primary to-accent' },
-    { id: 'hackathon', label: 'Hackathons', color: 'bg-gradient-to-r from-secondary to-primary' }
+    { id: 'hackathon', label: 'Hackathons', color: 'bg-gradient-to-r from-secondary to-primary' },
+    { id: 'general', label: 'General', color: 'bg-gray-500' }
   ];
 
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = useMemo(() => events.filter(event => {
     const matchesFilter = activeFilter === 'all' || event.status === activeFilter;
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          event.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
     return matchesFilter && matchesSearch;
-  });
+  }), [events, activeFilter, searchTerm]);
 
   const getCategoryColor = (category: string) => {
-    const cat = categories.find(c => c.id === category);
+    const cat = categories.find(c => c.id.toLowerCase() === category.toLowerCase());
     return cat ? cat.color : 'bg-gradient-primary';
   };
 
@@ -134,6 +118,27 @@ const Events = () => {
       day: 'numeric' 
     });
   };
+
+  const renderSkeletons = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {[...Array(6)].map((_, i) => (
+        <Card key={i} className="glass-card animate-pulse">
+          <CardHeader className="pb-4">
+            <div className="h-6 bg-muted rounded w-3/4 mb-2"></div>
+            <div className="h-4 bg-muted rounded w-1/2"></div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="h-4 bg-muted rounded w-full"></div>
+            <div className="h-4 bg-muted rounded w-5/6"></div>
+            <div className="flex justify-between items-center pt-4">
+              <div className="h-8 bg-muted rounded w-24"></div>
+              <div className="h-10 bg-muted rounded w-32"></div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
 
   return (
     <div className="min-h-screen pt-20">
@@ -177,7 +182,7 @@ const Events = () => {
                   key={filter.id}
                   variant={activeFilter === filter.id ? "default" : "outline"}
                   onClick={() => setActiveFilter(filter.id)}
-                  className={`${
+                  className={`${ 
                     activeFilter === filter.id 
                       ? 'bg-gradient-primary text-white' 
                       : 'glass-button'
@@ -191,97 +196,107 @@ const Events = () => {
           </div>
 
           {/* Events Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredEvents.map((event, index) => (
-              <Card 
-                key={event.id}
-                className={`glass-card hover:scale-105 transition-all duration-300 group animate-fade-in ${
-                  event.featured ? 'ring-2 ring-primary/20 shadow-glow' : ''
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <CardHeader className="pb-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge className={`${getCategoryColor(event.category)} text-white border-0`}>
-                          {categories.find(c => c.id === event.category)?.label}
-                        </Badge>
-                        {event.featured && (
-                          <Badge variant="outline" className="border-accent text-accent">
-                            Featured
+          {isLoading && renderSkeletons()}
+          {isError && (
+            <div className="text-center py-16 text-red-500">
+              <AlertTriangle className="h-16 w-16 mx-auto mb-4 opacity-50" />
+              <h3 className="text-xl font-semibold mb-2">Failed to load events</h3>
+              <p>There was an error fetching the events. Please try again later.</p>
+            </div>
+          )}
+          {!isLoading && !isError && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredEvents.map((event, index) => (
+                <Card 
+                  key={event.id}
+                  className={`glass-card hover:scale-105 transition-all duration-300 group animate-fade-in ${ 
+                    event.featured ? 'ring-2 ring-primary/20 shadow-glow' : ''
+                  }`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <CardHeader className="pb-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Badge className={`${getCategoryColor(event.category)} text-white border-0`}>
+                            {categories.find(c => c.id.toLowerCase() === event.category.toLowerCase())?.label}
                           </Badge>
-                        )}
-                      </div>
-                      <h3 className="text-xl font-bold text-foreground group-hover:gradient-text transition-all duration-300 font-urbanist">
-                        {event.title}
-                      </h3>
-                    </div>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground line-clamp-2">
-                    {event.description}
-                  </p>
-
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Calendar className="h-4 w-4 mr-2 text-primary" />
-                      {formatDate(event.date)}
-                    </div>
-                    
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-2 text-secondary" />
-                      {event.time}
-                    </div>
-                    
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4 mr-2 text-accent" />
-                      {event.location}
-                    </div>
-                    
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center text-muted-foreground">
-                        <Users className="h-4 w-4 mr-2" />
-                        {event.attendees}/{event.maxAttendees} attending
-                      </div>
-                      <div className={`text-xs px-2 py-1 rounded-full ${
-                        event.status === 'current' 
-                          ? 'bg-green-500/20 text-green-400' 
-                          : 'bg-blue-500/20 text-blue-400'
-                      }`}>
-                        {event.status === 'current' ? 'Live Now' : 'Upcoming'}
+                          {event.featured && (
+                            <Badge variant="outline" className="border-accent text-accent">
+                              Featured
+                            </Badge>
+                          )}
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground group-hover:gradient-text transition-all duration-300 font-urbanist">
+                          {event.title}
+                        </h3>
                       </div>
                     </div>
+                  </CardHeader>
 
-                    <div className="flex flex-wrap gap-1">
-                      {event.tags.map((tag, tagIndex) => (
-                        <Badge 
-                          key={tagIndex} 
-                          variant="outline" 
-                          className="text-xs border-glass-border bg-glass"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
+                  <CardContent className="space-y-4">
+                    <p className="text-muted-foreground line-clamp-2">
+                      {event.description}
+                    </p>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Calendar className="h-4 w-4 mr-2 text-primary" />
+                        {formatDate(event.date)}
+                      </div>
+                      
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Clock className="h-4 w-4 mr-2 text-secondary" />
+                        {event.time}
+                      </div>
+                      
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <MapPin className="h-4 w-4 mr-2 text-accent" />
+                        {event.location}
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center text-muted-foreground">
+                          <Users className="h-4 w-4 mr-2" />
+                          {event.attendees}/{event.maxAttendees} attending
+                        </div>
+                        <div className={`text-xs px-2 py-1 rounded-full ${ 
+                          event.status === 'current' 
+                            ? 'bg-green-500/20 text-green-400' 
+                            : 'bg-blue-500/20 text-blue-400'
+                        }`}>
+                          {event.status === 'current' ? 'Live Now' : 'Upcoming'}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap gap-1">
+                        {event.tags.map((tag, tagIndex) => (
+                          <Badge 
+                            key={tagIndex} 
+                            variant="outline" 
+                            className="text-xs border-glass-border bg-glass"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <Button 
-                    className="w-full mt-4 bg-gradient-primary hover:scale-105 transition-all duration-300"
-                    disabled={event.attendees >= event.maxAttendees}
-                    onClick={() => navigate(`/events/${event.id}`)}
-                  >
-                    {event.attendees >= event.maxAttendees ? 'Event Full' : 'View Details'}
-                    {event.attendees < event.maxAttendees && <ArrowRight className="ml-2 h-4 w-4" />}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    <Button 
+                      className="w-full mt-4 bg-gradient-primary hover:scale-105 transition-all duration-300"
+                      disabled={event.attendees >= event.maxAttendees}
+                      onClick={() => navigate(`/events/${event.id}`)}
+                    >
+                      {event.attendees >= event.maxAttendees ? 'Event Full' : 'View Details'}
+                      {event.attendees < event.maxAttendees && <ArrowRight className="ml-2 h-4 w-4" />}
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
-          {filteredEvents.length === 0 && (
+          {!isLoading && !isError && filteredEvents.length === 0 && (
             <div className="text-center py-16">
               <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-50" />
               <h3 className="text-xl font-semibold text-muted-foreground mb-2">No events found</h3>

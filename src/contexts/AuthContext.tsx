@@ -1,10 +1,15 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+
 // User interface
 export interface User {
-  id: string;
-  username: string;
+  _id: string;
+  fullName: string;
   email: string;
+  // Add other fields from your user model as needed
+  usn?: string;
+  semester?: number;
+  department?: string;
 }
 
 // Authentication context interface
@@ -12,7 +17,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (userData: User) => void;
+  login: (userData: User, token: string) => void;
   logout: () => void;
 }
 
@@ -21,6 +26,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Local storage key for user data
 const USER_STORAGE_KEY = 'uniconnect_user';
+const TOKEN_STORAGE_KEY = 'uniconnect_token';
 
 // AuthProvider component
 interface AuthProviderProps {
@@ -48,23 +54,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  // Login function - store user data
-  const login = (userData: User) => {
+  // Login function - store user data and token
+  const login = (userData: User, token: string) => {
     setUser(userData);
     try {
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
+      localStorage.setItem(TOKEN_STORAGE_KEY, token);
     } catch (error) {
-      console.error('Error saving user data to localStorage:', error);
+      console.error('Error saving auth data to localStorage:', error);
     }
   };
 
-  // Logout function - clear user data
+  // Logout function - clear user data and token
   const logout = () => {
     setUser(null);
     try {
       localStorage.removeItem(USER_STORAGE_KEY);
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
     } catch (error) {
-      console.error('Error removing user data from localStorage:', error);
+      console.error('Error removing auth data from localStorage:', error);
     }
   };
 

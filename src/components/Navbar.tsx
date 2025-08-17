@@ -76,12 +76,16 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-4">
             {isAuthenticated ? (
               <>
-                <div className="flex items-center space-x-3 px-3 py-2 rounded-lg glass-card">
+                <Link to="/profile" className="flex items-center space-x-3 px-3 py-2 rounded-lg glass-card hover:bg-muted/20 transition-colors">
                   <User className="h-4 w-4 text-primary" />
                   <span className="font-medium text-foreground">
-                    {user?.username}
+                    {user?.fullName}
                   </span>
-                </div>
+                </Link>
+                <Link to="/my-teams" className="flex items-center space-x-2 px-3 py-2 rounded-lg glass-card hover:bg-muted/20 transition-colors">
+                  <Users className="h-4 w-4 text-primary" />
+                  <span className="font-medium text-foreground">My Teams</span>
+                </Link>
                 <Button
                   variant="ghost"
                   className="glass-button"
@@ -145,12 +149,16 @@ const Navbar = () => {
               <div className="pt-4 border-t border-white/10 space-y-3">
                 {isAuthenticated ? (
                   <>
-                    <div className="flex items-center space-x-3 px-4 py-3 rounded-lg glass-card">
+                    <Link to="/profile" onClick={() => setIsOpen(false)} className="flex items-center space-x-3 px-4 py-3 rounded-lg glass-card">
                       <User className="h-4 w-4 text-primary" />
                       <span className="font-medium text-foreground">
-                        {user?.username}
+                        {user?.fullName}
                       </span>
-                    </div>
+                    </Link>
+                    <Link to="/my-teams" onClick={() => setIsOpen(false)} className="flex items-center space-x-3 px-4 py-3 rounded-lg glass-card">
+                        <Users className="h-5 w-5 text-primary" />
+                        <span className="font-medium">My Teams</span>
+                    </Link>
                     <Button
                       variant="ghost"
                       className="w-full glass-button justify-start"

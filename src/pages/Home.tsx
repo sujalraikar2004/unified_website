@@ -1,10 +1,16 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+
+import { Team } from '@/lib/api';
 import { ArrowRight, Users, Calendar, Trophy, Zap, Globe, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import heroImage from '@/assets/hero-image.jpg';
 
 const Home = () => {
+    const { isAuthenticated, user } = useAuth();
+
   const features = [
     {
       icon: Users,
@@ -81,13 +87,28 @@ const Home = () => {
               opportunities meet ambition, and dreams become reality.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in animate-delay-300">
-              <Link to="/signup">
-                <Button size="lg" className="bg-gradient-primary hover:scale-105 transition-all duration-300 shadow-glow text-lg px-8 py-4 glow-pulse">
-                  Join Community
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
+                        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in animate-delay-300">
+              {isAuthenticated && user ? (
+                <div className="text-center">
+                    <div>
+                      <h2 className="text-2xl font-semibold">Welcome, {user.fullName}!</h2>
+                      <p className="text-muted-foreground mt-2">Manage your teams or create a new one to get started.</p>
+                      <Link to="/my-teams">
+                        <Button size="lg" className="mt-4 bg-gradient-primary hover:scale-105 transition-all duration-300 shadow-glow text-lg px-8 py-4">
+                          Manage My Teams
+                          <Users className="ml-2 h-5 w-5" />
+                        </Button>
+                      </Link>
+                    </div>
+                </div>
+              ) : (
+                <Link to="/signup">
+                  <Button size="lg" className="bg-gradient-primary hover:scale-105 transition-all duration-300 shadow-glow text-lg px-8 py-4 glow-pulse">
+                    Join Community
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              )}
               
               <Link to="/events">
                 <Button size="lg" variant="outline" className="glass-button text-lg px-8 py-4">
