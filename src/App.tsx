@@ -21,6 +21,7 @@ import ActivateAccount from "./pages/ActivateAccount";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from './pages/Profile';
 import MyTeams from "./pages/MyTeams";
+import CheckEmail from './pages/CheckEmail';
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/my-teams" element={<MyTeams />} />
+              <Route path="/check-email" element={<CheckEmail />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
