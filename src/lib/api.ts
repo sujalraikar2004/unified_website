@@ -1,7 +1,7 @@
 import { User } from '@/contexts/AuthContext';
 
 // API Configuration and HTTP Client
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://unified-backend-0z4c.onrender.com';
 
 // API Response Types
 export interface ApiResponse<T = any> {

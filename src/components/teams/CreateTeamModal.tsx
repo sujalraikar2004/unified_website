@@ -39,7 +39,7 @@ const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClose, onTe
         throw new Error('Authentication token not found.');
       }
 
-      const response = await fetch('http://localhost:5000/api/teams', {
+      const response = await fetch('https://unified-backend-0z4c.onrender.com/api/teams', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

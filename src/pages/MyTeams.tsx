@@ -23,7 +23,7 @@ const MyTeams: React.FC = () => {
       if (!token) {
         throw new Error('Authentication token not found.');
       }
-      const response = await fetch('http://localhost:5000/api/teams', {
+      const response = await fetch('https://unified-backend-0z4c.onrender.com/api/teams', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -43,7 +43,7 @@ const MyTeams: React.FC = () => {
       if (!token) {
         throw new Error('Authentication token not found.');
       }
-      const response = await fetch(`http://localhost:5000/api/teams/${teamId}`, {
+      const response = await fetch(`https://unified-backend-0z4c.onrender.com/api/teams/${teamId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
