@@ -33,7 +33,7 @@ const EventDetail: React.FC = () => {
   const { data: event, isLoading: isEventLoading, error: eventError } = useQuery<Event, Error>({
     queryKey: ['event', id],
     queryFn: async () => {
-      const { data } = await axios.get(`/api/events/${id}`);
+      const { data } = await axios.get(`https://unified-backend-qxri.onrender.com/api/events/${id}`);
       return data.data;
     },
     enabled: !!id,

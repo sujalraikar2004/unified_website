@@ -30,7 +30,7 @@ const ResetPassword = () => {
 
     setIsLoading(true);
     try {
-            const response = await fetch(`/api/users/reset-password/${token}`, {
+            const response = await fetch(`https://unified-backend-qxri.onrender.com/api/users/reset-password/${token}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -34,7 +34,7 @@ const RegisterTeamModal: React.FC<RegisterTeamModalProps> = ({ isOpen, onClose, 
     mutationFn: async ({ eventId, teamId }) => {
       const token = localStorage.getItem('uniconnect_token');
       const { data } = await axios.post(
-        `/api/events/${eventId}/register`,
+        `https://unified-backend-qxri.onrender.com/api/events/${eventId}/register`,
         { teamId },
         {
           headers: {
