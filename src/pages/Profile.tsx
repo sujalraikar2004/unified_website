@@ -20,7 +20,7 @@ const Profile = () => {
       }
 
       try {
-        const response = await fetch('https://unified-backend-0z4c.onrender.com/api/users/me', {
+        const response = await fetch('https://unified-backend-qxri.onrender.com/api/users/me', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
