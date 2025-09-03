@@ -23,7 +23,7 @@ const MyTeams: React.FC = () => {
       if (!token) {
         throw new Error('Authentication token not found.');
       }
-      const response = await fetch('https://unified-backend-qxri.onrender.com/api/teams', {
+      const response = await fetch('https://unified-backend-5fbf.onrender.com/api/teams', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

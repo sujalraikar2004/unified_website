@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'https://unified-backend-qxri.onrender.com',
+        target: 'https://unified-backend-fz19.onrender.com',
         changeOrigin: true,
       },
     },

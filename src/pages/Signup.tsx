@@ -60,7 +60,7 @@ const Signup = () => {
     };
 
     try {
-      const response = await fetch('https://unified-backend-qxri.onrender.com/api/users/register', {
+      const response = await fetch('https://unified-backend-5fbf.onrender.com/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -40,7 +40,7 @@ interface FrontendEvent {
 }
 
 const fetchEvents = async (): Promise<BackendEvent[]> => {
-  const { data } = await axios.get('https://unified-backend-qxri.onrender.com/api/events');
+  const { data } = await axios.get('https://unified-backend-5fbf.onrender.com/api/events');
   return data.data;
 };
 
