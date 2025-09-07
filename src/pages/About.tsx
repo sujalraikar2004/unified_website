@@ -1,85 +1,99 @@
-import { Users, Target, Eye, Award, Globe, Heart } from 'lucide-react';
+import { Users, Target, Eye, Award, Globe, Heart, BookOpen, TrendingUp, Network, Lightbulb } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 const About = () => {
   const timeline = [
     {
-      year: '2019',
-      title: 'The Beginning',
-      description: 'Founded with a vision to connect students globally and create a unified learning community.',
+      year: '2021',
+      title: 'The Foundation',
+      description: 'Founded by Tanish Dumawat, Guruprasad Shirganvi, and Rohit Uppin with a vision to bridge the gap between students\' potential and opportunities. Started by gathering friends and pitching the idea to college principal.',
       icon: Users,
       color: 'from-primary to-primary-glow'
     },
     {
-      year: '2020',
-      title: 'Digital Transformation',
-      description: 'Adapted to the digital age with virtual events and online collaboration tools during the pandemic.',
-      icon: Globe,
+      year: '2021',
+      title: 'Official Launch',
+      description: 'Secured official permission and formally inaugurated Unified Community. What began as a handful of motivated students quickly grew into a movement.',
+      icon: Award,
       color: 'from-secondary to-secondary-glow'
     },
     {
-      year: '2021',
-      title: 'Global Expansion',
-      description: 'Reached 100+ universities across 25 countries, establishing international partnerships.',
-      icon: Award,
+      year: '2022-2023',
+      title: 'Rapid Growth',
+      description: 'Expanded from 3 founders to a thriving community. Hosted sessions, workshops, and discussions on entrepreneurship, placements, and skill-building.',
+      icon: TrendingUp,
       color: 'from-accent to-accent-glow'
     },
     {
-      year: '2022',
-      title: 'Innovation Hub',
-      description: 'Launched our innovation lab and accelerator program for student startups and projects.',
-      icon: Target,
+      year: '2024',
+      title: 'Community Maturity',
+      description: 'Built leadership opportunities by passing responsibilities to juniors, ensuring continuity. Created a positive environment where students actively support each other\'s growth.',
+      icon: Network,
       color: 'from-primary to-secondary'
     },
     {
-      year: '2023',
-      title: 'Community Growth',
-      description: 'Surpassed 10,000 active members and hosted over 500 successful events worldwide.',
-      icon: Heart,
-      color: 'from-secondary to-accent'
-    },
-    {
       year: '2024',
-      title: 'Future Forward',
-      description: 'Continuing to innovate with AI-powered networking and personalized learning experiences.',
-      icon: Eye,
-      color: 'from-accent to-primary'
+      title: 'Digital Expansion',
+      description: 'Launched our website as a digital home for the community - a hub for connection, learning, and inspiration with dedicated sections for resources, events, and networking.',
+      icon: Globe,
+      color: 'from-secondary to-accent'
     }
   ];
 
-  const values = [
+  const founders = [
     {
-      title: 'Inclusivity',
-      description: 'We welcome students from all backgrounds, disciplines, and skill levels to join our community.',
-      icon: Users,
+      name: 'Tanish Dumawat',
+      role: 'Co-Founder',
+      description: 'Visionary leader focused on building entrepreneurial mindset and community growth.',
       gradient: 'from-primary to-primary-glow'
     },
     {
-      title: 'Innovation',
-      description: 'We encourage creative thinking and provide platforms for students to turn ideas into reality.',
-      icon: Target,
+      name: 'Guruprasad Shirganvi',
+      role: 'Co-Founder',
+      description: 'Expert in networking and collaboration, connecting students with opportunities.',
       gradient: 'from-secondary to-secondary-glow'
     },
     {
-      title: 'Collaboration',
-      description: 'We believe in the power of working together to achieve greater success and learning outcomes.',
-      icon: Heart,
+      name: 'Rohit Uppin',
+      role: 'Co-Founder',
+      description: 'Specialist in skill development and career guidance for community members.',
+      gradient: 'from-accent to-accent-glow'
+    }
+  ];
+
+  const focusAreas = [
+    {
+      title: 'Entrepreneurship & Startup Skills',
+      description: 'Nurturing a builder\'s mindset and helping students develop entrepreneurial thinking.',
+      icon: Lightbulb,
+      gradient: 'from-primary to-primary-glow'
+    },
+    {
+      title: 'Networking & Collaboration',
+      description: 'Giving students access to peers, mentors, and valuable opportunities.',
+      icon: Network,
+      gradient: 'from-secondary to-secondary-glow'
+    },
+    {
+      title: 'Skill Development',
+      description: 'From English speaking to interview prep, equipping members with practical tools.',
+      icon: BookOpen,
       gradient: 'from-accent to-accent-glow'
     },
     {
-      title: 'Growth',
-      description: 'We are committed to continuous learning and personal development for every community member.',
-      icon: Award,
+      title: 'Career Growth',
+      description: 'Guiding students with referrals, placements, and real-world exposure.',
+      icon: TrendingUp,
       gradient: 'from-primary to-secondary'
     }
   ];
 
   const stats = [
-    { number: '10,000+', label: 'Active Students', description: 'From universities worldwide' },
-    { number: '500+', label: 'Universities', description: 'Across 50+ countries' },
-    { number: '1,000+', label: 'Events Hosted', description: 'Workshops, hackathons, and more' },
-    { number: '95%', label: 'Satisfaction Rate', description: 'Member satisfaction score' }
+    { number: '1,500-2,000+', label: 'Active Members', description: 'Growing community of students' },
+    { number: '3', label: 'Founding Years', description: 'Since 2021' },
+    { number: '100+', label: 'Events Hosted', description: 'Workshops, sessions, and discussions' },
+    { number: '∞', label: 'Opportunities', description: 'Unlimited growth potential' }
   ];
 
   return (
@@ -88,11 +102,11 @@ const About = () => {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold gradient-text font-urbanist mb-6 animate-fade-in">
-            About Unified Student Community
+            Unified Community – Our Journey
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed animate-fade-in animate-delay-200">
-            Empowering students worldwide through meaningful connections, collaborative learning, 
-            and innovative opportunities that shape the future of education.
+            Founded in 2021 by Tanish Dumawat, Guruprasad Shirganvi, and Rohit Uppin with one simple vision: 
+            to bridge the gap between students' potential and the opportunities available to them.
           </p>
         </div>
       </section>
@@ -108,10 +122,10 @@ const About = () => {
                 </div>
                 <h2 className="text-3xl font-bold gradient-text font-urbanist">Our Mission</h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  To create a unified platform where students from diverse backgrounds can connect, 
-                  collaborate, and grow together. We aim to bridge the gap between theoretical knowledge 
-                  and practical experience through hands-on projects, networking opportunities, and 
-                  skill development programs.
+                  We set out to build a community that focuses on entrepreneurship & startup skills, 
+                  networking & collaboration, skill development, and career growth. At the time, we lacked 
+                  proper placement support, career guidance, referrals, and most importantly, a structured 
+                  way for students to upskill themselves.
                 </p>
               </CardContent>
             </Card>
@@ -123,13 +137,47 @@ const About = () => {
                 </div>
                 <h2 className="text-3xl font-bold gradient-text font-urbanist">Our Vision</h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  To become the world's leading student community platform that transcends geographical 
-                  boundaries and institutional barriers. We envision a future where every student has 
-                  access to global opportunities, mentorship, and resources needed to achieve their 
-                  academic and professional goals.
+                  The vision for Unified Community goes beyond a college initiative. We're building a 
+                  self-sustaining ecosystem where students feel heard, supported, and empowered to grow. 
+                  We're creating a long-term network that will continue to guide, inspire, and connect 
+                  students and alumni for years to come.
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Founders Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-center gradient-text font-urbanist mb-12 animate-fade-in">
+            Meet Our Founders
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {founders.map((founder, index) => (
+              <Card 
+                key={index} 
+                className={`glass-card text-center p-8 hover:scale-105 transition-all duration-300 animate-fade-in`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <CardContent className="space-y-4">
+                  <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${founder.gradient} flex items-center justify-center mx-auto mb-4`}>
+                    <Users className="h-10 w-10 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground font-urbanist">
+                    {founder.name}
+                  </h3>
+                  <Badge className={`bg-gradient-to-r ${founder.gradient} text-white border-0`}>
+                    {founder.role}
+                  </Badge>
+                  <p className="text-muted-foreground">
+                    {founder.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -138,7 +186,7 @@ const About = () => {
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-center gradient-text font-urbanist mb-12 animate-fade-in">
-            Our Impact in Numbers
+            Our Growth & Impact
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -222,34 +270,83 @@ const About = () => {
         </div>
       </section>
 
-      {/* Values */}
+      {/* Focus Areas */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-center gradient-text font-urbanist mb-12 animate-fade-in">
-            Our Core Values
+            What We Focus On
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
+            {focusAreas.map((area, index) => (
               <Card 
                 key={index} 
                 className={`glass-card text-center p-8 hover:scale-105 transition-all duration-300 group animate-fade-in`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <CardContent className="space-y-4">
-                  <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${value.gradient} flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300`}>
-                    <value.icon className="h-8 w-8 text-white" />
+                  <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${area.gradient} flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                    <area.icon className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-foreground font-urbanist">
-                    {value.title}
+                    {area.title}
                   </h3>
                   <p className="text-muted-foreground">
-                    {value.description}
+                    {area.description}
                   </p>
                 </CardContent>
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Website Vision Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <Card className="glass-card p-12 animate-fade-in">
+            <CardContent className="space-y-8 text-center">
+              <h2 className="text-4xl font-bold gradient-text font-urbanist">
+                The Website Vision
+              </h2>
+              
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto">
+                As the community grows, we wanted to build a digital home for Unified Community. 
+                Our website serves as a hub for connection, learning, and inspiration.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-primary flex items-center justify-center mx-auto">
+                    <Users className="h-6 w-6 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-foreground">Founders & Leadership</h4>
+                  <p className="text-sm text-muted-foreground">Profiles and Board of Directors archive</p>
+                </div>
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-secondary flex items-center justify-center mx-auto">
+                    <Network className="h-6 w-6 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-foreground">Alumni & Networking</h4>
+                  <p className="text-sm text-muted-foreground">Connect and collaborate with alumni</p>
+                </div>
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-accent flex items-center justify-center mx-auto">
+                    <BookOpen className="h-6 w-6 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-foreground">Learning Resources</h4>
+                  <p className="text-sm text-muted-foreground">Documents, videos, and curated content</p>
+                </div>
+                <div className="space-y-3">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto">
+                    <Globe className="h-6 w-6 text-white" />
+                  </div>
+                  <h4 className="font-semibold text-foreground">Events & Updates</h4>
+                  <p className="text-sm text-muted-foreground">Workshops, sessions, and activities</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -263,8 +360,8 @@ const About = () => {
               </h2>
               
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Be part of a movement that's reshaping how students connect, learn, and grow together. 
-                Your journey of transformation starts here.
+                Unified Community is not just about today — it's about creating a platform where every 
+                student can learn, contribute, and belong. Be part of our journey of transformation.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
